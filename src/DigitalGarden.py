@@ -1,3 +1,5 @@
+# https://www.youtube.com/watch?v=xw1AZLiNjB8
+
 import pygame, random, math
 
 pygame.init()
@@ -104,7 +106,7 @@ class Gene:
             self.colorChangeDeviation = ancestorGene.colorChangeDeviation * (((random.random() * 2)-1)*2)    # Valeur entre -1 et 1 qu'on multiplie par 2 pour avoir un nombre entre -2 et 2, puis on multiplie par colorChangeDeviation pour avoir un nombre entre -colorChangeDeviantion et colorChangeDeviantion
 
             self.nbBranche = ancestorGene.nbBranche + random.randint(-ancestorGene.nbBrancheDeviation, ancestorGene.nbBrancheDeviation)
-            self.nbBrancheDeviation = int(ancestorGene.nbBrancheDeviation * (((random.random() * 2)-1)*2))    # Valeur entre -1 et 1 qu'on multiplie par 2 pour avoir un nombre entre -2 et 2, puis on multiplie par nbBrancheDeviation pour avoir un nombre entre -nbBrancheDeviation et nbBrancheDeviation
+            self.nbBrancheDeviation = int(ancestorGene.nbBrancheDeviation * (random.random() * 4))    # Valeur entre 0 et 2 qu'on multiplie par 2 pour avoir un nombre entre 0 et 2, puis on multiplie par nbBrancheDeviation pour avoir un nombre entre -nbBrancheDeviation et nbBrancheDeviation
             if self.nbBranche < 1:
                 self.nbBranche = 1
             
@@ -115,6 +117,34 @@ class Gene:
             self.turnRandom = ancestorGene.turnRandom * (((random.random() * 2)-1)*2)    # Valeur entre -1 et 1 qu'on multiplie par 2 pour avoir un nombre entre -2 et 2, puis on multiplie par turnRandom pour avoir un nombre entre -turnRandom et turnRandom
             self.downUp = ancestorGene.downUp + ((((random.random() * 2)-1)*2) * ancestorGene.downUp)  # Valeur entre -2 et 2 qu'on multiplie par downUp pour avoir un nombre entre -downUp et downUp, puis on additionne a downUp
         return
+
+    def Copy(self) -> 'Gene':
+        """
+            Retourne une copie du gene
+        """
+        newGene: Gene = Gene()
+        newGene.length = self.length
+        newGene.lengthDeviation = self.lengthDeviation
+
+        newGene.radius = self.radius
+        newGene.radiusDeviation = self.radiusDeviation
+        newGene.radiusChange = self.radiusChange
+        newGene.radiusChangeDeviation = self.radiusChangeDeviation
+
+        newGene.color = self.color
+        newGene.colorDeviation = self.colorDeviation
+        newGene.colorChange = self.colorChange
+        newGene.colorChangeDeviation = self.colorChangeDeviation
+
+        newGene.nbBranche = self.nbBranche
+        newGene.nbBrancheDeviation = self.nbBrancheDeviation
+        newGene.angleBranche = self.angleBranche
+        newGene.angleDeviation = self.angleDeviation
+
+        newGene.turn = self.turn
+        newGene.turnRandom = self.turnRandom
+        newGene.downUp = self.downUp
+        return newGene
 
 
 class Cell:
@@ -177,7 +207,7 @@ class Cell:
                 ),
                 self.angle + self.gene.turn + (random.random() * self.gene.turnRandom), 
                 self.posInBranch + 1, 
-                self.gene
+                self.gene.Copy()
             ))                
 
         return newCells
