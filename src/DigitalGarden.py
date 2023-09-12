@@ -1,3 +1,16 @@
+import pygame
+
+pygame.init()
+clock = pygame.time.Clock()
+
+BLACK = 0, 0, 0
+WHITE = 255, 255, 255
+BLUE = 0, 0, 255
+RED = 255, 0, 0
+GREEN = 0, 255, 0
+
+WINDOW_SIZE = (1024, 1024)
+FPS = 20
 
 
 class Cell:
@@ -43,3 +56,42 @@ class Tree:
         self.cells = newCells
         return self.oldCells + self.cells
 
+
+
+
+
+
+
+def main():
+    screen = pygame.display.set_mode(WINDOW_SIZE)
+    loop = True
+
+    size = 20
+    color = RED
+
+    tree: Tree = Tree((512, 1000))
+
+    while loop:
+        ### Event ###
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                loop = False
+        #############
+
+
+        ### LOGIC ###
+        #############
+
+
+        ### RENDER ###
+        for cell in tree.Generate():
+            pygame.draw.circle(screen, color, cell.pos, size)
+
+
+        pygame.display.update()
+        screen.fill(BLACK)
+        clock.tick(FPS)
+        ##############
+
+if __name__ == '__main__':
+    main()
